@@ -1,5 +1,5 @@
 {
-  "name": "ybagheri/EasyTelegram",
+  "name": "ybagheri/easytelegram",
   "description": "Easy Telegram wrapper for Telegram Bots Api",
   "license": "MIT",
   "minimum-stability" : "dev",
