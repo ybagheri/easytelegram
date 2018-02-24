@@ -8,7 +8,7 @@
 
 namespace Ybagheri;
 
-
+//
 trait EasyOOP
 {
     private $data = array();
