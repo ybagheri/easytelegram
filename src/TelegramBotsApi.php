@@ -123,9 +123,9 @@ interface TelegramBotsApi
 
     public function getGameHighScores(array $params);
 
-    public function deleteWebhook();
+    public function deleteWebhook(array $params=[]);
 
-    public function getWebhookInfo();
+    public function getWebhookInfo(array $params=[]);
 
-    public function getMe();
+    public function getMe(array $params=[]);
 }

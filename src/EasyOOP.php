@@ -9,7 +9,7 @@
 namespace Ybagheri;
 
 
-class EasyOOP
+trait EasyOOP
 {
     private $data = array();
 

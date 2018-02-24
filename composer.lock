@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "82785f46c02dff5853a342258b75e8bd",
-    "content-hash": "fde6514bda25356f659953dac47191f1",
+    "hash": "f841c4197cb018eadf1b6c745550a8f0",
+    "content-hash": "ddffa96deb1669ff45af7f7b111157b6",
     "packages": [
         {
             "name": "symfony/css-selector",
