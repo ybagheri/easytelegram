@@ -15,6 +15,7 @@ class EasyTelegram  implements TelegramBotsApi
     use TelegramHelper;
     use EasyOOP;
     public $token;
+    public $botId;
 
     /**
      * TelegramApi constructor.
