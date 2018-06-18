@@ -1,4 +1,4 @@
-# EasyHelper
+# EasyTelegram
 Easy Telegram wrapper for Telegram Bots Api.
 ## Usage
 
