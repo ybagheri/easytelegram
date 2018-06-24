@@ -17,7 +17,7 @@ trait GeneralHelper
 //        error_reporting(0);
         $file_headers = get_headers($url, 1);
 //        error_reporting(1);
-        $info = $this->getRemote200($file_headers);
+        $info = parent::getRemote200($file_headers);
         if ($info['size']) {
             $name = pathinfo($url, PATHINFO_BASENAME);
             return array_merge($info, ['name' => $name]);
@@ -254,7 +254,7 @@ trait GeneralHelper
                 }
 
             } elseif ($ext == 'rar') {
-                return array_merge($this->extractRar($file, $dir, $password), ['path' => $dir]);
+                return array_merge(parent::extractRar($file, $dir, $password), ['path' => $dir]);
             }
             return ['ok' => false];
         } else {
@@ -317,7 +317,7 @@ trait GeneralHelper
     }
 
     public function deleteFile($path){
-        return $this->deleteDirectory($path);
+        return parent::deleteDirectory($path);
     }
 
     public function updateArrayKey($arr, $removeValue, $removekey = null, $blnResetKey = true)
