@@ -5,6 +5,7 @@ namespace Ybagheri;
 
 trait GeneralHelper
 {
+
     public function addScheme($url, $scheme = 'http://')
     {
         return parse_url($url, PHP_URL_SCHEME) === null ?
@@ -31,7 +32,7 @@ trait GeneralHelper
                     $name = pathinfo($url, PATHINFO_BASENAME);
                 }
                 $file_headers = get_headers($url, 1);
-                return array_merge($this->getRemote200($file_headers), ['name' => $name]);
+                return array_merge(self::getRemote200($file_headers), ['name' => $name]);
             }
         }
         return false;
@@ -73,7 +74,7 @@ trait GeneralHelper
 
     public function downloadFromUrl($url, $path)
     {
-        $url = $this->addScheme($url);
+        $url = parent::addScheme($url);
         $file_headers = get_headers($url, 1);
         if (!$file_headers || $file_headers[0] == "HTTP/1.1 404 Not Found" || $file_headers[0] == "HTTP/1.0 404 Not Found") {
             return false;
@@ -144,7 +145,7 @@ trait GeneralHelper
         try {
             $getID3 = new \getID3;
         } catch (\Exception $e) {
-            $this->log($e->getMessage());
+            HelperBot::log($e->getMessage());
         }
         $DeterminedMIMEtype = '';
         if ($fp = fopen($filename, 'rb')) {

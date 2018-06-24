@@ -1,9 +1,10 @@
 <?php
 
 namespace Ybagheri;
-//namespace App;
-use Ybagheri\EasyHelper;
+
+
 use Ybagheri\EasyDatabase;
+use Ybagheri\EasyHelper;
 use Ybagheri\GeneralHelper;
 
 trait HelperBot
@@ -37,7 +38,7 @@ use GeneralHelper;
 
     public function sendBatchFile($path, $withDel = false, $sleep = 3, $caption = null, $AudioTitle = null, $blnAppendTitle = false, $AudioPerformer = null, $blnAppendPerformer = false)
     {
-        $files = $this->allFileInDir($path);
+        $files = GeneralHelper::allFileInDir($path);
         $counter = 0;
         if (!empty($files)) {
             foreach ($files as $file) {
@@ -145,7 +146,7 @@ use GeneralHelper;
         }
 //        \Ybagheri\EasyHelper::telegramHTTPRequest($this->environment["BOT_TOKEN"),'sendMessage',['chat_id' => $this->fromId,'text' =>var_export($allFields,true)]);
 
-        $allFields = $this->removeNullValue($allFields);
+        $allFields = GeneralHelper::removeNullValue($allFields);
 
         return $this->$method($allFields);
     }
@@ -367,7 +368,7 @@ use GeneralHelper;
     {
         $path = $this->storage . '/' . $this->fromId . '/download';
 
-        $file = $this->downloadFromUrl($url, $path);
+        $file = GeneralHelper::downloadFromUrl($url, $path);
 
         if ($file !== false) {
 
@@ -385,7 +386,7 @@ use GeneralHelper;
     {
 
         if (is_null($mimetype)) {
-            $mimetype = $this->GetMIMEtype($file);
+            $mimetype = GeneralHelper::GetMIMEtype($file);
         }
 
         $type = explode("/", $mimetype)[0];
@@ -626,7 +627,7 @@ use GeneralHelper;
 //    $tglists=$arr;
 //}
         else {
-            $tglists = $this->searchThroughArrayWithKey($query, $this->glTagLists[$this->fromId], $titleOrPerformer);
+            $tglists = GeneralHelper::searchThroughArrayWithKey($query, $this->glTagLists[$this->fromId], $titleOrPerformer);
 
         }
 
@@ -697,7 +698,7 @@ use GeneralHelper;
             $cptionlists = $arr;
         } else {
             // search through caption
-            $cptionlists = $this->searchThroughArray($query, $this->glCaptionLists[$this->fromId]);
+            $cptionlists = GeneralHelper::searchThroughArray($query, $this->glCaptionLists[$this->fromId]);
 
         }
 
@@ -737,7 +738,7 @@ use GeneralHelper;
 
         if (($ext == 'rar' && $this->rarExtensionIsEnable) || $ext == 'zip') {
             if (!empty($this->setting[$this->fromId]['compressed_password'] && is_array($this->setting[$this->fromId]['compressed_password']))) {
-                $arr = $this->searchThroughArrayWithKey($message_id, $this->setting[$this->fromId]['compressed_password'], 'message_id');
+                $arr = GeneralHelper::searchThroughArrayWithKey($message_id, $this->setting[$this->fromId]['compressed_password'], 'message_id');
                 $password = $arr[array_keys($arr)[0]]['password'];
             } else {
                 $password = '';
@@ -745,19 +746,19 @@ use GeneralHelper;
             $dest = $this->storage . '/' . $this->fromId . '/uncompress';
 
 
-            $res = $this->unCompress($file, $dest, $password);
+            $res = GeneralHelper::unCompress($file, $dest, $password);
             if (isset($res['result']) && $res['result'] == 'Extraction failed (wrong password?)') {
                 return $res['result'];
 //                    $this->sendMessage(['chat_id' => $this->fromId, 'text' => '']);
             } elseif (isset($res['ok']) && $res['ok']) {
                 // remove compressed file.
-                $this->deleteDirectory($file);
+                GeneralHelper::deleteDirectory($file);
 
                 $res = $this->sendBatchFile($res['path'], true);
-                $del = $this->deleteDirectory($res['path']);
+                $del = GeneralHelper::deleteDirectory($res['path']);
                 if ($res['sent'] > 0 && $res['count'] == $res['sent']) {
                     if (isset($arr)) {
-                        $this->setting[$this->fromId]['compressed_password'] = $this->updateArrayKey($this->setting[$this->fromId]['compressed_password'], $message_id, 'message_id');
+                        $this->setting[$this->fromId]['compressed_password'] = GeneralHelper::updateArrayKey($this->setting[$this->fromId]['compressed_password'], $message_id, 'message_id');
                         $this->writeSettings();
                     }
 
@@ -775,7 +776,7 @@ use GeneralHelper;
         } else {
 
             $res = $this->upload($this->fileType($file), $file);
-            $this->deleteDirectory($file);
+            GeneralHelper::deleteDirectory($file);
             if (isset($res) && $res->ok) {
                 $msg = 'upload_successfully';
             } else {
@@ -795,16 +796,16 @@ use GeneralHelper;
             $dest = $this->storage . '/' . $this->fromId . '/uncompress';
 
 
-            $res = $this->unCompress($file, $dest, $password);
+            $res = GeneralHelper::unCompress($file, $dest, $password);
             if (isset($res['result']) && $res['result'] == 'Extraction failed (wrong password?)') {
                 return $res['result'];
 //                    $this->sendMessage(['chat_id' => $this->fromId, 'text' => '']);
             } elseif (isset($res['ok']) && $res['ok']) {
                 // remove compressed file.
-                $this->deleteDirectory($file);
+                GeneralHelper::deleteDirectory($file);
 
                 $res = $this->sendBatchFile($res['path'], true);
-                $del = $this->deleteDirectory($res['path']);
+                $del = GeneralHelper::deleteDirectory($res['path']);
                 if ($res['sent'] > 0 && $res['count'] == $res['sent']) {
                     $msg = 'upload_successfully';
                 } else {
@@ -823,7 +824,7 @@ use GeneralHelper;
         } else {
 
             $res = $this->upload($this->fileType($file), $file);
-            $this->deleteDirectory($file);
+            GeneralHelper::deleteDirectory($file);
             if (isset($res) && $res->ok) {
                 $msg = 'upload_successfully';
             } else {
