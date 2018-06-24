@@ -17,7 +17,7 @@ trait GeneralHelper
 //        error_reporting(0);
         $file_headers = get_headers($url, 1);
 //        error_reporting(1);
-        $info = parent::getRemote200($file_headers);
+        $info = self::getRemote200($file_headers);
         if ($info['size']) {
             $name = pathinfo($url, PATHINFO_BASENAME);
             return array_merge($info, ['name' => $name]);
@@ -74,7 +74,7 @@ trait GeneralHelper
 
     public function downloadFromUrl($url, $path)
     {
-        $url = parent::addScheme($url);
+        $url = self::addScheme($url);
         $file_headers = get_headers($url, 1);
         if (!$file_headers || $file_headers[0] == "HTTP/1.1 404 Not Found" || $file_headers[0] == "HTTP/1.0 404 Not Found") {
             return false;
@@ -254,7 +254,7 @@ trait GeneralHelper
                 }
 
             } elseif ($ext == 'rar') {
-                return array_merge(parent::extractRar($file, $dir, $password), ['path' => $dir]);
+                return array_merge(self::extractRar($file, $dir, $password), ['path' => $dir]);
             }
             return ['ok' => false];
         } else {
@@ -317,7 +317,7 @@ trait GeneralHelper
     }
 
     public function deleteFile($path){
-        return parent::deleteDirectory($path);
+        return self::deleteDirectory($path);
     }
 
     public function updateArrayKey($arr, $removeValue, $removekey = null, $blnResetKey = true)
