@@ -1,13 +1,15 @@
 <?php
 
-namespace Ybagheri;
+//namespace Ybagheri;
+namespace App;
 use Ybagheri\EasyHelper;
 use Ybagheri\EasyDatabase;
+use Ybagheri\GeneralHelper;
 
 trait HelperBot
 {
-use GeneralHelper;
 
+use GeneralHelper;
     public function getInfo($captionLists, $tagLists = [])
     {
         try {
