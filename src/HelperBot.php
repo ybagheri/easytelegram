@@ -36,7 +36,7 @@ use GeneralHelper;
         }
     }  
 
-    public function sendBatchFile($path, $withDel = false, $sleep = 3, $caption = null, $AudioTitle = null, $blnAppendTitle = false, $AudioPerformer = null, $blnAppendPerformer = false)
+       public function sendBatchFile($path, $withDel = false, $sleep = 3, $caption = null, $AudioTitle = null, $blnAppendTitle = false, $AudioPerformer = null, $blnAppendPerformer = false,$title=null,$performer=null,$titleStartChar=null,$titleLengthChar=null,$performerStartChar=null,$performerLengthChar=null)
     {
         $files = GeneralHelper::allFileInDir($path);
         $counter = 0;
@@ -44,24 +44,52 @@ use GeneralHelper;
             foreach ($files as $file) {
                 $fileType = $this->fileType($file);
                 if ($fileType == 'audio') {
-                    if ($blnAppendTitle) {
+
+                    if(isset($titleStartChar) || isset($performerStartCharc) || $blnAppendTitle || $blnAppendPerformer ) {
                         try {
                             $getID3 = new \getID3;
                             $ThisFileInfo = $getID3->analyze($file);
                             \getid3_lib::CopyTagsToComments($ThisFileInfo);
+
+                        } catch (\getid3_exception $e) {
+                        }
+
+
+                        if ($blnAppendTitle && isset($ThisFileInfo)) {
                             $AudioTitle = $ThisFileInfo['comments_html']['title'][0] . ' ' . $AudioTitle;
-                        } catch (\getid3_exception $e) {
                         }
-                    }
-                    if ($blnAppendPerformer) {
-                        try {
-                            $getID3 = new \getID3;
-                            $ThisFileInfo = $getID3->analyze($file);
-                            \getid3_lib::CopyTagsToComments($ThisFileInfo);
+                        if ($blnAppendPerformer && isset($ThisFileInfo)) {
                             $AudioPerformer = $ThisFileInfo['comments_html']['artist'][0] . ' ' . $AudioPerformer;
-                        } catch (\getid3_exception $e) {
+                        }
+
+                        if (isset($titleStartChar) && isset($titleLengthChar)&& isset($ThisFileInfo)) {
+
+                            //should be in this format:
+                            //start-length ex: ---> 12-7
+                            //0 is first charactr.
+                            $AudioTitle = $ThisFileInfo['comments_html']['title'][0];
+                            $AudioTitle = substr($AudioTitle, $titleStartChar, $titleLengthChar);
+
+                        }
+
+                        if (isset($performerStartCharc) && isset($performerLengthChar)&& isset($ThisFileInfo)) {
+                            //should be in this format:
+                            //start-length ex: ---> 12-7
+                            //0 is first charactr.
+                            $AudioPerformer = $ThisFileInfo['comments_html']['artist'][0];
+                            $AudioPerformer = substr($AudioPerformer, $performerStartCharc, $performerLengthChar);
+                        }
+
+                        if(! is_null($title)){
+                            $AudioTitle=$title;
+
+                        }
+
+                        if(! is_null($performer)){
+                            $AudioPerformer=$performer;
                         }
                     }
+
                     $fields = ['caption' => $caption, 'performer' => $AudioPerformer, 'title' => $AudioTitle,];
                 } else {
                     $fields = ['caption' => $caption];
@@ -79,7 +107,8 @@ use GeneralHelper;
         }
 
         return ['count' => 0, 'sent' => 0];
-    }    
+    }
+
 
     public function getFileId($type, $message)
     {
@@ -787,7 +816,7 @@ use GeneralHelper;
         }
     }
 
-    public function uploadOrExtractAndUploadToTelFromLinkFileInServer($file, $password = '')
+        public function uploadOrExtractAndUploadToTelFromLinkFileInServer($file, $password = '',$continueFileName=null,$title=null,$performer=null,$titleStartChar=null,$titleLengthChar=null,$performerStartChar=null,$performerLengthChar=null, $caption = null)
     {
         $ext = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -796,7 +825,7 @@ use GeneralHelper;
             $dest = $this->storage . '/' . $this->fromId . '/uncompress';
 
 
-            $res = GeneralHelper::unCompress($file, $dest, $password);
+            $res = GeneralHelper::unCompress($file, $dest, $password,$continueFileName);
             if (isset($res['result']) && $res['result'] == 'Extraction failed (wrong password?)') {
                 return $res['result'];
 //                    $this->sendMessage(['chat_id' => $this->fromId, 'text' => '']);
@@ -804,7 +833,7 @@ use GeneralHelper;
                 // remove compressed file.
                 GeneralHelper::deleteDirectory($file);
 
-                $res = $this->sendBatchFile($res['path'], true);
+                $res = $this->sendBatchFile($res['path'], true, 3, $caption ,  null,  false,  null,  false,$title,$performer,$titleStartChar,$titleLengthChar,$performerStartChar,$performerLengthChar);
                 $del = GeneralHelper::deleteDirectory($res['path']);
                 if ($res['sent'] > 0 && $res['count'] == $res['sent']) {
                     $msg = 'upload_successfully';
@@ -834,5 +863,6 @@ use GeneralHelper;
             return $msg;
         }
     }
+
 
 }
