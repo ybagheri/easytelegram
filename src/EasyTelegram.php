@@ -13,7 +13,7 @@ use Ybagheri\TelegramBotsApi;
 class EasyTelegram  implements TelegramBotsApi
 {
     use TelegramHelper;
-    use EasyOOP;
+    use EasyOOP;   
     public $token;
     public $botId;
 
