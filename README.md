@@ -95,7 +95,7 @@ if (isset($message) && $message->chat->type == 'private') {
 } elseif (isset($request->callback_query)) {
 
 
-} elseif ($request->inline_query) {
+} elseif (isset($request->inline_query)) {
 
 
 } elseif (isset($request->chosen_inline_result)) {
