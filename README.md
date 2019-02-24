@@ -106,4 +106,18 @@ if (isset($message) && $message->chat->type == 'private') {
 
 }
 
+// You can use proxy when run php in your server or local computer.
+
+$easyTelegram = new EasiestBot(BOT_TOKEN]);
+
+// if your proxy need username and password
+$easyTelegram->forwardMessage(['chat_id' => $chat_id,'from_chat_id' => $from_chat_id, 'message_id' => $message_id, 'proxy_url' => '127.0.0.1', 'proxy_port' => '49719', 'proxy_userpwd' => 'username:pass' ]);
+
+// if you use a proxy does not need username and password like Psiphon:
+$easyTelegram->forwardMessage(['chat_id' => $chat_id,'from_chat_id' => $from_chat_id, 'message_id' => $message_id, 'proxy_url' => '127.0.0.1', 'proxy_port' => '49719' ]);
+
+
+	
+
+
 ```

@@ -20,7 +20,7 @@ trait TelegramHelper
         $arg_list=$blnParam ? $callers[1]['args'] : null;
         $token = $callers[1]["object"]->token;
         $className=$callers[1]["class"];
-        $param =$blnParam ? EasyHelper::methodGetArgs($methodName, $className) :null;
+        $param =$blnParam ? EasyHelper::methodGetArgs($methodName, $className) :null;		
         $arr=[];
         for ($i = 0; $i < $numargs; $i++) {
             $arr[$param[$i]['parameter']] = $arg_list[$i];
