@@ -25,15 +25,21 @@ trait TelegramHelper
         for ($i = 0; $i < $numargs; $i++) {
             $arr[$param[$i]['parameter']] = $arg_list[$i];
         }
+        
+        if(isset($this->proxy_url)&&isset($this->proxy_port)){
+            $arr["params"]['proxy_url'] = $this->proxy_url;
+            $arr["params"]['proxy_port'] = $this->proxy_port;
+            if(isset($this->proxy_user)&&isset($this->proxy_password)){
+                $arr["params"]['proxy_userpwd']=$this->proxy_user.':'.$this->proxy_password;
+            }
+        }
+
+        if(isset($this->CURLOPT_CAINFO)){
+            $arr["params"]['CURLOPT_CAINFO'] = $this->CURLOPT_CAINFO;
+        }
 
         return $blnParam ? EasyHelper::telegramHTTPRequest($token, $methodName, $arr["params"] ) :  EasyHelper::telegramHTTPRequest($token, $methodName );
-//        var_dump($callers);
-//        var_dump($token);
-//        var_dump($methodName);
-//        var_dump($arr["params"]);
-//    echo 'methodName: '.$methodName.PHP_EOL;
-//    echo 'datas : '.PHP_EOL;
-//    print_r($arr["params"]);
+
 
     }
 }
