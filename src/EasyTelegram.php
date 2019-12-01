@@ -19,6 +19,11 @@ class EasyTelegram  implements TelegramBotsApi
 
     public $token;
     public $botId;
+    public $proxy_url;
+    public $proxy_port;
+    public $proxy_user;
+    public $proxy_password;
+    public $CURLOPT_CAINFO;
 
     /**
      * TelegramApi constructor.
