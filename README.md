@@ -20,6 +20,7 @@ for example,
 https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setWebhook?url=https://url-address/bot.php
 
 here is bot.php example:
+if webhook is active.
 ```php
 <?php
 require_once 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
