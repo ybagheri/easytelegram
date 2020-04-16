@@ -152,5 +152,19 @@ class EasyTelegram  implements TelegramBotsApi
     public function getWebhookInfo(array $params=[]){ return $this->doWithMethod();}
 
     public function getMe(array $params=[]){ return $this->doWithMethod() ;}
+
+    public function editMessageMedia(array $params=[]){ return $this->doWithMethod() ;}
+
+    public function sendAnimation(array $params=[]){ return $this->doWithMethod() ;}
+    
+    public function setChatAdministratorCustomTitle(array $params=[]){ return $this->doWithMethod() ;}
+    
+    public function sendDice(array $params=[]){ return $this->doWithMethod() ;}
+    
+    public function getMyCommands(array $params=[]){ return $this->doWithMethod() ;}
+    
+    public function setMyCommands(array $params=[]){ return $this->doWithMethod() ;}
+    
+    
 }
 
